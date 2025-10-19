@@ -1,80 +1,52 @@
 ---
-title: "Quickstart"
-description: "Start building awesome documentation in minutes"
+title: "Welcome"
 ---
 
-## Get started in three steps
+## Our Thesis
 
-Get your documentation site running locally and make your first customization.
+We believe the world is moving on-chain — but the foundational infrastructure behind it remains deeply fragmented.
 
-### Step 1: Set up your local environment
+Building any on-chain or cross-chain application today means dealing with a maze of incompatible systems: bridges, DEXs, aggregators, gas APIs, relayers, RPCs, token lists, and custom SDKs. Each protocol operates on its own standards, data formats, and security assumptions.
 
-<AccordionGroup>
-  <Accordion icon="copy" title="Clone your docs locally">
-    During the onboarding process, you created a GitHub repository with your docs content if you didn't already have one. You can find a link to this repository in your [dashboard](https://dashboard.mintlify.com).
-    
-    To clone the repository locally so that you can make and preview changes to your docs, follow the [Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) guide in the GitHub docs.
-  </Accordion>
-  <Accordion icon="rectangle-terminal" title="Start the preview server">
-    1. Install the Mintlify CLI: `npm i -g mint`
-    2. Navigate to your docs directory and run: `mint dev`
-    3. Open `http://localhost:3000` to see your docs live!
-    
-    <Tip>Your preview updates automatically as you edit files.</Tip>
-  </Accordion>
-</AccordionGroup>
+Even the most basic liquidity flow requires developers to stitch together multiple moving parts, monitor countless endpoints, and manage execution risks across several networks. It’s slow, fragile, and expensive.
 
-### Step 2: Deploy your changes
+Teams spend months building and maintaining routing, safety, and analytics infrastructure instead of focusing on user experience and core product. The result is systemic inefficiency — fragmented liquidity, unreliable execution, poor UX, high costs, and never-ending development cycles.
 
-<AccordionGroup>
-  <Accordion icon="github" title="Install our GitHub app">
-    Install the Mintlify GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app).
-    
-    Our GitHub app automatically deploys your changes to your docs site, so you don't need to manage deployments yourself.
-</Accordion>
-<Accordion icon="palette" title="Update your site name and colors">
-    For a first change, let's update the name and colors of your docs site.
+And yet, DeFi continues to attract tens of thousands of developers, drawn by its permissionless nature — anyone can deploy a protocol, integrate liquidity, or launch a financial primitive without gatekeepers. This openness fuels innovation but also multiplies inconsistency, exposing users and enterprises to hidden risks and non-deterministic execution.
 
-    1. Open `docs.json` in your editor.
-    2. Change the `"name"` field to your project name.
-    3. Update the `"colors"` to match your brand.
-    4. Save and see your changes instantly at `http://localhost:3000`.
+Even traditional finance institutions exploring on-chain integration face the same barriers: overwhelming complexity, fragmentation, and the lack of a unified, verifiable way to execute transactions safely.
 
-    <Tip>Try changing the primary color to see an immediate difference!</Tip>
-  </Accordion>
-</AccordionGroup>
+## Solution
 
-### Step 3: Go live
+Alyra is building execution infrastructure that enables any application to embed seamless cross-chain swaps and bridges through a single, developer-friendly API & SDK.
 
-<Accordion icon="rocket" title="Publish your docs">
-  1. Commit and push your changes.
-  2. Your docs will update and be live in moments!
-</Accordion>
+It aggregates, connects, and abstracts core financial infrastructure, sourcing liquidity from multiple decentralized exchanges, bridges, and aggregators, and unifies it under a single transparent execution framework.
 
-## Next steps
+Transactions move through verifiable smart contracts, ensuring that every step is deterministic and secure.
 
-Now that you have your docs running, explore these key features:
+On top of execution safety, Alyra offers built-in monetization tools for integrators. Developers can configure custom fees per flow, allowing dApps, wallets, and fintechs to generate sustainable revenue from user activity without needing to build their own billing systems.
 
-<CardGroup cols={2}>
+We also deliver analytics and reporting dashboards that track execution volumes, user flows, and liquidity usage in real time, helping teams understand performance and optimize for growth.
 
-<Card title="Write Content" icon="pen-to-square" href="/essentials/markdown">
-  Learn MDX syntax and start writing your documentation.
-</Card>
+This lets builders — from fintechs and Web2 platforms to next-gen DeFi apps — focus on their core mission while drastically reducing go-to-market time, cutting maintenance overhead, and operating with institutional-grade safety and fault tolerance.
 
-<Card title="Customize style" icon="palette" href="/essentials/settings">
-  Make your docs match your brand perfectly.
-</Card>
+Alyra is designed to be the execution layer for the on-chain economy, removing integration barriers and the hidden risks that slow mainstream adoption of decentralized finance.
 
-<Card title="Add code examples" icon="square-code" href="/essentials/code">
-  Include syntax-highlighted code blocks.
-</Card>
+---
 
-<Card title="API documentation" icon="code" href="/api-reference/introduction">
-  Auto-generate API docs from OpenAPI specs.
-</Card>
+### **Key Benefits**
 
-</CardGroup>
+- Unified cross-chain execution: Aggregate and execute swaps and bridges across 25+ EVM and non-EVM networks through a single API & SDK — no separate integrations required.
+- High-performance routing: Optimized multi-route engine ensuring sub-second quote aggregation and deterministic transaction execution.
+- Developer-first integration: One API/SDK for any stack — connect from dApps, wallets, agents, or fintech platforms without custom backend logic.
+- Built-in monetization: Configure custom fees per route or per integrator to generate sustainable revenue from executed user flows.
+- Transparent smart contracts: Every execution passes through verifiable, auditable contracts with deterministic conditions and on-chain proofs.
+- Enterprise-grade reliability: Off-chain validation and route simulation ensure consistent, predictable execution outcomes.
+- Real-time analytics: Access detailed telemetry dashboards tracking user flows, liquidity sources, fees, and performance metrics for data-driven growth.
+- Multi-chain composability: Seamless interoperability across DEXs, bridges, and aggregators — enabling complex DeFi logic and cross-chain automation within one unified execution layer.
 
-<Note>
-  **Need help?** See our [full documentation](https://mintlify.com/docs) or join our [community](https://mintlify.com/community).
-</Note>
+---
+
+### **Use Cases**
+
+- Wallets and DeFi platforms: Embed
