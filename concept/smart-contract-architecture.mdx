@@ -26,10 +26,6 @@ Example: a user swaps USDC on Ethereum for USDT on Arbitrum.
 3. The Bridge Facet encodes and forwards the transaction to the chosen bridge (e.g., Stargate).  
 4. Settlement completes on the destination chain exactly as specified in the packet — or reverts safely if constraints are violated.
 
-<Frame>
-  <img src="/images/contract-flow.png" />
-</Frame>
-
 ---
 
 #### Diamond Helper Contracts
@@ -42,7 +38,3 @@ Alongside the main Diamond, Alyra deploys helper facets to support:
 - **WithdrawFacet** — enable authorized withdrawal of fees or funds.
 
 This setup ensures **upgradeability**, **transparency**, and **secure administration** without compromising the deterministic execution core.
-
-<Frame>
-  <img src="/images/diamond-helper-contracts.png" />
-</Frame>
