@@ -1,0 +1,48 @@
+---
+title: 'Smart Contract Architecture'
+---
+
+#### Architecture
+
+Alyra contracts are built using the **EIP-2535 Diamond Standard (Multi-facet Proxy)**.  
+All execution flows go through the **Alyra Diamond** — a single-entry-point contract that delegates calls to specialized **Facet Modules**.
+
+This design makes Alyra:
+
+- **Modular** — new liquidity providers can be added as separate facets without redeploying the core system.  
+- **Upgradeable** — business logic evolves without changing the main contract address.  
+- **Deterministic** — all routes follow strict execution rules encoded in the **Execution Packet**.
+
+Business logic lives inside Facet contracts stored in `src/facets`, each responsible for interacting with a specific type of liquidity provider (e.g., bridges, DEXs, solvers).
+
+---
+
+#### Contract Flow
+
+Example: a user swaps USDC on Ethereum for USDT on Arbitrum.
+
+1. The signed **Execution Packet** is submitted to the **Alyra Diamond** contract.  
+2. Diamond validates the packet and forwards the call to the appropriate **Bridge Facet**.  
+3. The Bridge Facet encodes and forwards the transaction to the chosen bridge (e.g., Stargate).  
+4. Settlement completes on the destination chain exactly as specified in the packet — or reverts safely if constraints are violated.
+
+<Frame>
+  <img src="/images/contract-flow.png" />
+</Frame>
+
+---
+
+#### Diamond Helper Contracts
+
+Alongside the main Diamond, Alyra deploys helper facets to support:
+
+- **DiamondCutFacet** — add, replace, or remove facet logic.  
+- **DiamondLoupeFacet** — query available functions and facet addresses.  
+- **OwnershipFacet** — manage contract ownership and permissions.  
+- **WithdrawFacet** — enable authorized withdrawal of fees or funds.
+
+This setup ensures **upgradeability**, **transparency**, and **secure administration** without compromising the deterministic execution core.
+
+<Frame>
+  <img src="/images/diamond-helper-contracts.png" />
+</Frame>

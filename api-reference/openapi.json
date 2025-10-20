@@ -190,16 +190,13 @@
         "description": "Execution payload; fields may vary by chain/tool",
         "properties": {
           "to": { "type": "string", "description": "Target contract/address" },
-          "value": { "type": "string", "description": "Native value to send (wei/lamports/etc.)" },
+          "value": { "type": "string", "description": "Native value to send" },
           "data": { "type": "string", "description": "Calldata hex" }
         },
         "additionalProperties": true
       },
       "Fee": {
         "type": "object",
-        "properties": {
-          "123": { "type": "string", "description": "123" }
-        },
         "additionalProperties": true
       },
       "Error": {
