@@ -22,7 +22,6 @@
               "index",
               "concept/introduction",
               "concept/alyra-execution-flow",
-              "concept/supported-chains",
               "concept/fee-collection",
               "concept/collaborate-with-alyra",
               "concept/smart-contract-architecture",
@@ -80,15 +79,15 @@
   },
   "contextual": {
     "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "perplexity",
+      "mcp",
+      "cursor",
+      "vscode"
+    ]
   },
   "footer": {
     "socials": {
