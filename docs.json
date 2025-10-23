@@ -19,7 +19,7 @@
           {
             "group": "CONCEPT",
             "pages": [
-              "index",
+              "welcome",
               "concept/introduction",
               "concept/alyra-execution-flow",
               "concept/collaborate-with-alyra",
