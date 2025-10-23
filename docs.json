@@ -20,7 +20,6 @@
             "group": "CONCEPT",
             "pages": [
               "welcome",
-              "concept/introduction",
               "concept/alyra-execution-flow",
               "concept/collaborate-with-alyra",
               "concept/smart-contract-architecture",
