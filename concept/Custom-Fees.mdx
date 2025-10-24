@@ -10,9 +10,9 @@ Any dApp, wallet, or platform using Alyra’s API/SDK can define custom fees in 
 
 When requesting quotes or executing transactions via the Alyra API/SDK, you can pass a fee parameter in bps: _1 bps = 0.01%_
 
-<Tooltip tip="">Alyra adds this fee to the route, and it is distributed automatically via the Fee Collector infrastructure.</Tooltip>
+Alyra adds this fee to the route, and it is distributed automatically via the Fee Collector infrastructure
 
-### EVM
+**EVM**
 
 Fees are accumulated in the Fee Collector contract. Only the designated fee wallet can claim accrued fees. Once a wallet is registered, all collected fees are locked to it and cannot be transferred. If you later change the fee wallet, new fees will accrue to the new wallet.
 
