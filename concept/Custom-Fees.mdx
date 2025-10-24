@@ -1,5 +1,51 @@
 ---
-title: 'Custom Fees'
-description: 'Description of your new file.'
+title: "Custom Fees"
 ---
 
+With Alyra, developers can not only access global cross-chain liquidity and execution but also earn revenue from every transaction processed through their integration.
+
+Any dApp, wallet, or platform using Alyra’s API/SDK can define custom fees in bps (basis points) and automatically collect earnings from user transaction volume.
+
+### How it works
+
+When requesting quotes or executing transactions via the Alyra API/SDK, you can pass a fee parameter in bps: _1 bps = 0.01%_
+
+<Tooltip tip="">Alyra adds this fee to the route, and it is distributed automatically via the Fee Collector infrastructure.</Tooltip>
+
+### EVM
+
+Fees are accumulated in the Fee Collector contract. Only the designated fee wallet can claim accrued fees. Once a wallet is registered, all collected fees are locked to it and cannot be transferred. If you later change the fee wallet, new fees will accrue to the new wallet.
+
+### Other networks (coming soon)
+
+On Solana and Sui, fees will be sent directly to the designated wallet without requiring manual claims.
+
+### Setting up a fee wallet
+
+To start earning fees:
+
+1. Register your integration at [portal.alyra.finance](http://developers.alyra.finance).
+2. Link a wallet to collect fees.
+3. Provide your String (so fees are tracked correctly.
+
+Through the partner portal, you can monitor fees per chain and per token, and withdraw them.
+
+### Configuring fees
+
+You can configure fees in two ways:
+
+1. **Global setup:** Define a fixed number of bps that applies to all transactions.
+2. **Per-request setup:** Assign different fee values depending on transaction type, user group, or business logic.
+
+   <Note>
+     **Example**
+     1. An integrator sets a fee of 30 bps (0.3%).
+     1. A user makes a \$100,000 cross-chain transfer.
+     2. The integrator earns \$300, which can be claimed via the Fee Collector.
+   </Note>
+
+### Key Benefits for Developers
+
+- New revenue stream — earn from every transaction routed through your integration.
+- Flexible configuration — set fees globally or dynamically per transaction.
+- Transparent accounting — track fees by chain and token.

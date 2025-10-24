@@ -36,7 +36,7 @@
           {
             "group": "About API",
             "pages": [
-              "api-reference/introduction"
+              "api-reference/alyra-api-v1"
             ]
           },
           {
