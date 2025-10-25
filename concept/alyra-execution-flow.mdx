@@ -4,7 +4,7 @@ title: "Alyra Execution Flow"
 
 ## Introduction
 
-Alyra is a security-first execution layer that aggregates liquidity and abstracts away multi-chain complexity. Our system connects dApps with bridges, DEXs, and solvers through a single API/SDK, returning deterministic Execution Packets that are safely executed on-chain. This architecture enables seamless cross-chain and same-chain transactions with built-in monitoring, fallback logic, and transparent smart contracts.
+Alyra is a security-first execution layer that aggregates liquidity and abstracts away multi-chain complexity. Our system connects dApps with bridges and DEXs, through a single API/SDK, returning deterministic Execution Packets that are safely executed on-chain. This architecture enables seamless cross-chain and same-chain transactions with built-in monitoring, fallback logic, and transparent smart contracts.
 
 ![Flow Pn](/images/flow.png)
 
@@ -19,7 +19,7 @@ Alyra is a security-first execution layer that aggregates liquidity and abstract
 
 - **Purpose**: The off-chain aggregation and routing layer.
 - **Functions**:
-  - Collect pricing and routes from integrated bridges, DEXs, and solvers.
+  - Collect pricing and routes from integrated bridges and DEXs.
   - Determine the optimal path based on cost, speed, and reliability.
   - After identifying the optimal route, Alyra validates the security of the selected path, ensuring that there are no vulnerabilities or risks before proceeding.
   - Encode the chosen route and parameters into an Execution Packet for deterministic settlement.
@@ -41,7 +41,7 @@ Alyra is a security-first execution layer that aggregates liquidity and abstract
 - **Role**: The primary smart contract entry point for execution.
 - **Functions**:
   - Validate the Execution Packet and signature.
-  - Route the transaction to the correct facet (bridge/DEX/solver).
+  - Route the transaction to the correct facet (bridge/DEX).
   - Enforce constraints and trigger fallback if conditions are violated.
   - Act as a deterministic state machine for all executions.
 
@@ -49,12 +49,11 @@ Alyra is a security-first execution layer that aggregates liquidity and abstract
 
 - **Bridge Facets**: Connect to supported cross-chain bridges.
 - **DEX Facets**: Route same-chain swaps to the best available DEX.
-- **Solver Facets**: Allow specialized solvers to provide competitive execution.
 - **Feature**: Modular and extensible — new providers can be added without redeploying the system.
 
 #### 6. Liquidity Provider Contracts
 
-- **Where settlement happens**: Bridges, DEXs, or solver contracts finalize the trade/transfer.
+- **Where settlement happens**: Bridges, or DEXs, contracts finalize the trade/transfer.
 - **Rule**: Alyra enforces deterministic execution — every step must match the encoded packet.
 
 ---
@@ -62,12 +61,12 @@ Alyra is a security-first execution layer that aggregates liquidity and abstract
 ### End-to-End Flow
 
 1. **Request** → The user starts a swap or transfer from a dApp integrated with Alyra.
-2. **Quote Discovery** → Alyra Router queries connected bridges, DEXs, and solvers to gather pricing and route data.
+2. **Quote Discovery** → Alyra Router queries connected bridges, and DEXs to gather pricing and route data.
 3. **Packet Creation** → The chosen route (with minOut, deadlines, fee caps, and fallback paths) is encoded into a deterministic **Execution Packet**.
 4. **Signature** → The user signs the packet, approving exactly this execution flow.
 5. **On-chain Submission** → The signed packet is sent to the **Alyra Diamond** contract.
-6. **Facet Dispatch** → Alyra Diamond validates the packet and forwards execution to the correct **Facet Module** (bridge, DEX, or solver).
-7. **Settlement** → The liquidity provider’s contract (bridge/DEX/solver) finalizes the swap or transfer.
+6. **Facet Dispatch** → Alyra Diamond validates the packet and forwards execution to the correct **Facet Module** (bridge or DEX).
+7. **Settlement** → The liquidity provider’s contract (bridge/DEX) finalizes the swap or transfer.
 8. **Outcome** → Execution either completes exactly as specified in the packet or safely reverts with fallback logic.
 
 ---
