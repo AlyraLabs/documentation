@@ -35,7 +35,10 @@
           {
             "group": "INTEGRATIONS",
             "pages": [
-              "integrations/supported-chains"
+              "integrations/supported-chains",
+              "integrations/evm-providers",
+              "integrations/solana-providers",
+              "integrations/sui-providers"
             ]
           }
         ]
