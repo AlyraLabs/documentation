@@ -4,8 +4,8 @@
   "name": "Alyra",
   "colors": {
     "primary": "#000000",
-    "light": "#8B61D4",
-    "dark": "#8B61D4"
+    "light": "#7C7C7C",
+    "dark": "#7C7C7C"
   },
   "favicon": {
     "light": "/favicon.png",
