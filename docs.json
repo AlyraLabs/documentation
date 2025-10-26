@@ -59,8 +59,11 @@
           "anchor": "Website",
           "href": "https://alyra.finance/",
           "icon": "globe"
-          
-          
+        },
+        {
+          "anchor": "GitHub",
+          "href": "https://github.com/AlyraLabs/",
+          "icon": "github"
         }
       ]
     }
