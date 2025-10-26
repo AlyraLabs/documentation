@@ -56,9 +56,9 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Website",
-          "href": "https://alyra.finance/",
-          "icon": "globe"
+          "anchor": "Partner Portal",
+          "href": "https://portal.alyra.finance",
+          "icon": "house"
         },
         {
           "anchor": "GitHub",
@@ -81,7 +81,7 @@
     ],
     "primary": {
       "type": "button",
-      "label": "Website",
+      "label": "Visit Website",
       "href": "https://alyra.finance/"
     }
   },
