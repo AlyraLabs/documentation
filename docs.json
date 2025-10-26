@@ -21,15 +21,15 @@
             "pages": [
               "welcome",
               "concept/collaborate-with-alyra",
-              "concept/smart-contract-architecture",
-              "concept/simple-vs-advanced-routing",
+              "protocol/smart-contract-architecture",
+              "protocol/simple-vs-advanced-routing",
               "concept/Custom-Fees"
             ]
           },
           {
             "group": "PROTOCOL",
             "pages": [
-              "protocol/alyra-execution-flow"
+              "protocol/protocol-overview"
                ]
           },
           {
