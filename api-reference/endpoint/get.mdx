@@ -3,4 +3,10 @@ title: "Get a quote for a token transfer"
 openapi: "GET /v1/quotes"
 ---
 
-This endpoint can be used to request a quote for a transfer of one token to another, cross chain or not. The endpoint returns a data which contains information about the estimated result as well as a "calldata" which can directly be sent to your wallet. The estimated resulting amount can be found inside the outputAmount.
+This endpoint enables you to request a quote for transferring tokens, whether across chains or within the same chain. It returns detailed information, including an estimated output amount and a "calldata" that can be directly submitted to your wallet. The estimated output amount can be found in the `outputAmount` field.
+
+<Info>
+  All Alyra APIs don't require an API key by default. An API key is only necessary for accessing higher request limits.
+</Info>
+
+**Base URL:** `https://api.alyra.finance/v1` 

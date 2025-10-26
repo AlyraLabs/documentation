@@ -44,12 +44,7 @@
         "tab": "API reference",
         "groups": [
           {
-            "group": "About API",
-            "pages": [
-              "api-reference/alyra-api-v1"
-            ]
-          },
-          {
+        
             "group": "Endpoints",
             "pages": [
               "api-reference/endpoint/get"
