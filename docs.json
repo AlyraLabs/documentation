@@ -20,16 +20,16 @@
             "group": "CONCEPT",
             "pages": [
               "welcome",
-              "concept/collaborate-with-alyra",
-              "protocol/smart-contract-architecture",
-              "protocol/simple-vs-advanced-routing",
-              "concept/Custom-Fees"
+              "concept/collaborate-with-alyra"
             ]
           },
           {
             "group": "PROTOCOL",
             "pages": [
-              "protocol/protocol-overview"
+              "protocol/protocol-overview",
+              "protocol/smart-contract-architecture",
+              "protocol/simple-vs-advanced-routing",
+              "protocol/Custom-Fees"
                ]
           },
           {
@@ -64,6 +64,8 @@
           "anchor": "Website",
           "href": "https://alyra.finance/",
           "icon": "globe"
+          
+          
         }
       ]
     }
