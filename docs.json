@@ -20,12 +20,17 @@
             "group": "CONCEPT",
             "pages": [
               "welcome",
-              "concept/supported-chains",
               "concept/alyra-execution-flow",
               "concept/collaborate-with-alyra",
               "concept/smart-contract-architecture",
               "concept/simple-vs-advanced-routing",
               "concept/Custom-Fees"
+            ]
+          },
+          {
+            "group": "PROTOCOL",
+            "pages": [
+              "protocol/supported-chains"
             ]
           }
         ]
