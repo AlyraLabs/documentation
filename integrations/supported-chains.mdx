@@ -43,8 +43,8 @@ export const SupportedChains = () => {
         </thead>
         <tbody>
           {chains.sort((a,b) => a.id - b.id).map((c) => (
-            <tr key={c.key}>
-              <td><img src={c.logoURI} alt={c.name} className="w-5 h-5 rounded-full" /></td>
+            <tr key={c.key} className="border-y border-gray-200">
+              <td><img src={c.logoURI} alt={c.name} className="w-10 h-10 rounded-full" /></td>
               <td className="font-medium">{c.name}</td>
               <td><code>{c.id}</code></td>
               <td><code>{c.key}</code></td>
