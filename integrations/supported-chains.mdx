@@ -2,3 +2,60 @@
 title: "Connected Chains"
 description: "The Alyra is fully compatible with a wide range of blockchains. This section outlines supported networks, their identifiers, and integration requirements for cross-chain requests."
 ---
+
+export const SupportedChains = () => {
+  const [chains, setChains] = useState(null);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    const fetchChains = async () => {
+      try {
+        const res = await fetch(
+          'https://api.alyra.finance/v1/chains',
+          { headers: { accept: 'application/json' }, cache: 'no-store' }
+        );
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const json = await res.json();
+        if (!cancelled) setChains(json.chains);
+      } catch (e) {
+        if (!cancelled) setError(e.message);
+      }
+    };
+    fetchChains();
+    return () => { cancelled = true; };
+  }, []);
+
+  if (error) return <div className="text-red-600">Error: {error}</div>;
+  if (!chains) return <div>Loading…</div>;
+
+  return (
+    <div className="not-prose overflow-x-auto">
+      <table className="min-w-[640px] w-full text-sm">
+        <thead>
+          <tr>
+            <th className="w-6"></th>
+            <th className="text-left">Chain Name</th>
+            <th className="text-left">Chain ID</th>
+            <th className="text-left">Key</th>
+            <th className="text-left">Chain Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          {chains.sort((a,b) => a.id - b.id).map((c) => (
+            <tr key={c.key}>
+              <td><img src={c.logoURI} alt={c.name} className="w-5 h-5 rounded-full" /></td>
+              <td className="font-medium">{c.name}</td>
+              <td><code>{c.id}</code></td>
+              <td><code>{c.key}</code></td>
+              <td className="font-medium">{c.chainType}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+<SupportedChains />
+
