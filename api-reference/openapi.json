@@ -163,10 +163,10 @@
             "name": "chainTypes",
             "in": "query",
             "required": false,
-            "description": "List of chain types to include (EVM,SVM,MVM).",
+            "description": "List of chain types to include (EVM,SVM).",
             "schema": {
               "type": "string",
-              "examples": ["SVM", "EVM,MVM"]
+              "examples": ["EVM", "EVM, SVM"]
             }
           }
         ],
@@ -291,7 +291,7 @@
         "properties": {
           "key": { "type": "string", "description": "Short chain key (e.g., eth, opt)" },
           "name": { "type": "string", "description": "Full name of the blockchain network"},
-          "chainType": { "type": "string", "description": "Type of chain: EVM, SVM or MVM" },
+          "chainType": { "type": "string", "description": "Type of chain: EVM, SVM" },
           "id": { "type": "integer", "description": "Numeric chain ID used in RPC and contracts" },
           "idHex": { "type": "string", "description": "Hexadecimal representation of the chain ID" },
           "mainnet": { "type": "boolean", "description": "Indicates whether the chain is a mainnet" },
