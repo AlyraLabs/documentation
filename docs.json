@@ -68,6 +68,11 @@
           "anchor": "GitHub",
           "href": "https://github.com/AlyraLabs/",
           "icon": "github"
+                  },
+        {
+          "anchor": "Status",
+          "href": "https://status.alyra.finance",
+          "icon": "signal-bars"
         }
       ]
     }
@@ -85,8 +90,8 @@
     ],
     "primary": {
       "type": "button",
-      "label": "Visit Website",
-      "href": "https://alyra.finance/"
+      "label": "Start Building",
+      "href": "https://portal.alyra.finance/"
     }
   },
   "contextual": {
