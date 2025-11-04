@@ -223,6 +223,93 @@
           }
         }
       }
+    },
+    "/v1/tools": {
+      "get": {
+        "summary": "List available exchanges and bridges",
+        "description": "Returns available tools (DEX aggregators, bridges, etc.). You can filter by chain IDs that the tool supports.",
+        "parameters": [
+          {
+            "name": "chains",
+            "in": "query",
+            "required": false,
+            "description": "A comma-separated list of chain identifiers to filter the instruments.",
+            "schema": {
+              "type": "string",
+              "example": "1,56,10"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of tools grouped by type",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ToolsResponse" },
+                "examples": {
+                  "success": {
+                    "summary": "Example tools response",
+                    "value": {
+                      "exchanges": [
+                        {
+                          "key": "OPENOCEAN",
+                          "name": "OpenOcean",
+                          "logoURI": "https://raw.githubusercontent.com/AlyraLabs/types/main/src/assets/icons/bridges/openocean.png",
+                          "supportedChains": [
+                            "1",
+                            "56",
+                            "10",
+                            "137",
+                            "42161",
+                            "8453",
+                            "130",
+                            "146",
+                            "999",
+                            "9745",
+                            "1329",
+                            "43114",
+                            "59144",
+                            "80094"
+                          ]
+                        }
+                      ],
+                      "bridges": [
+                        {
+                          "key": "ACROSS",
+                          "name": "Across",
+                          "logoURI": "https://raw.githubusercontent.com/AlyraLabs/types/main/src/assets/icons/bridges/across.svg",
+                          "supportedChains": [
+                            {
+                              "fromChainId": 1,
+                              "toChainId": 10
+                            },
+                            {
+                              "fromChainId": 1,
+                              "toChainId": 56
+                            },
+                            {
+                              "fromChainId": 1,
+                              "toChainId": 137
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -320,8 +407,82 @@
           "logoURI": { "type": "string", "format": "uri", "description": "URL of the token logo image" }
         },
         "required": ["address", "decimals", "symbol", "chainId", "coinKey", "name"]
+      },
+      "ToolsResponse": {
+        "type": "object",
+        "properties": {
+          "exchanges": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Exchange" }
+          },
+          "bridges": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Bridge" }
+          }
+        }
+      },
+      "Exchange": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "Unique tool key, e.g. OPENOCEAN"
+          },
+          "name": {
+            "type": "string",
+            "description": "Exchange name"
+          },
+          "logoURI": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to the tool logo"
+          },
+          "supportedChains": {
+            "type": "array",
+            "description": "List of chain IDs as strings this exchange supports",
+            "items": { "type": "string" }
+          }
+        },
+        "required": ["key", "name", "supportedChains"]
+      },
+      "Bridge": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "Unique tool key, e.g. ACROSS"
+          },
+          "name": {
+            "type": "string",
+            "description": "Bridge name"
+          },
+          "logoURI": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to the tool logo"
+          },
+          "supportedChains": {
+            "type": "array",
+            "description": "List of supported routes fromChainId -> toChainId",
+            "items": { "$ref": "#/components/schemas/BridgeRoute" }
+          }
+        },
+        "required": ["key", "name", "supportedChains"]
+      },
+      "BridgeRoute": {
+        "type": "object",
+        "properties": {
+          "fromChainId": {
+            "type": "integer",
+            "description": "Source chain ID"
+          },
+          "toChainId": {
+            "type": "integer",
+            "description": "Destination chain ID"
+          }
+        },
+        "required": ["fromChainId", "toChainId"]
       }
-
     }
   }
 }
