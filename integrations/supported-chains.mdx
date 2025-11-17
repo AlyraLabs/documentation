@@ -31,26 +31,41 @@ export const SupportedChains = () => {
 
   return (
     <div className="not-prose overflow-x-auto">
-      <table className="min-w-[640px] w-full text-sm">
+      <table className="min-w-[640px] w-full text-sm table-auto">
         <thead>
-          <tr>
-            <th className="w-6"></th>
-            <th className="text-left">Chain Name</th>
-            <th className="text-left">Chain ID</th>
-            <th className="text-left">Key</th>
-            <th className="text-left">Chain Type</th>
+          <tr className="border-b border-gray-800 text-left">
+            <th className="py-2">Chain Name</th>
+            <th className="py-2">Chain ID</th>
+            <th className="py-2">Key</th>
+            <th className="py-2">Chain Type</th>
           </tr>
         </thead>
+
         <tbody>
-          {chains.sort((a,b) => a.id - b.id).map((c) => (
-            <tr key={c.key} className="border-y border-gray-200">
-              <td className="py-2 align-middle">
-                <img src={c.logoURI} alt={c.name} className="max-h-4" />
+          {chains.sort((a, b) => a.id - b.id).map((c) => (
+            <tr key={c.key} className="border-b border-gray-800">
+              <td className="py-2">
+                <div className="flex items-center gap-2">
+                  <img
+                    src={c.logoURI}
+                    alt={c.name}
+                    className="h-4 w-4 object-contain"
+                  />
+                  <span className="font-medium">{c.name}</span>
+                </div>
               </td>
-              <td className="font-medium py-2 align-middle">{c.name}</td>
-              <td className="py-2 align-middle"><code>{c.id}</code></td>
-              <td className="py-2 align-middle"><code>{c.key}</code></td>
-              <td className="font-medium py-2">{c.chainType}</td>
+
+              <td className="py-2">
+                <code>{c.id}</code>
+              </td>
+
+              <td className="py-2">
+                <code>{c.key}</code>
+              </td>
+
+              <td className="py-2 font-medium">
+                {c.chainType}
+              </td>
             </tr>
           ))}
         </tbody>
