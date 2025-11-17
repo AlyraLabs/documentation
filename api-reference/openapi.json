@@ -310,7 +310,163 @@
           }
         }
       }
+    },
+    "/v1/tokens": {
+      "get": {
+        "summary": "List supported tokens",
+        "description": "Returns tokens supported by the protocol, optionally filtered by chain IDs and chain types.",
+        "parameters": [
+          {
+            "name": "chains",
+            "in": "query",
+            "required": false,
+            "description": "Comma-separated list of chain IDs to include.",
+            "schema": {
+              "type": "string",
+              "example": "1,56,10"
+            }
+          },
+          {
+            "name": "chainTypes",
+            "in": "query",
+            "required": false,
+            "description": "List of chain types to include.",
+            "schema": {
+              "type": "string",
+              "examples": ["EVM", "EVM,SVM"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tokens grouped by chain ID",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/TokensResponse" },
+                "examples": {
+                  "success": {
+                    "summary": "Example tokens response",
+                    "value": {
+                      "1": [
+                        {
+                          "address": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+                          "symbol": "WETH",
+                          "decimals": 18,
+                          "chainId": 1,
+                          "name": "Wrapped Ether",
+                          "coinKey": "WETH",
+                          "priceUSD": "3180.67",
+                          "logoURI": "https://github.com/trustwallet/assets/blob/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png?raw=true"
+                        },
+                        {
+                          "address": "0x0000000000000000000000000000000000000000",
+                          "symbol": "ETH",
+                          "decimals": 18,
+                          "chainId": 1,
+                          "name": "Ether",
+                          "coinKey": "ETH",
+                          "priceUSD": "3180.67",
+                          "logoURI": "https://github.com/trustwallet/assets/blob/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png?raw=true"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/token": {
+      "get": {
+        "summary": "Get a single token",
+        "description": "Returns detailed information for a single token identified by chain and address or symbol.",
+        "parameters": [
+          {
+            "name": "chain",
+            "in": "query",
+            "required": true,
+            "description": "Chain identifier: numeric chain ID or chain key.",
+            "schema": {
+              "type": "string",
+              "examples": ["1", "eth"]
+            }
+          },
+          {
+            "name": "token",
+            "in": "query",
+            "required": true,
+            "description": "Token identifier: contract address or symbol.",
+            "schema": {
+              "type": "string",
+              "examples": [
+                "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+                "WETH"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Token metadata",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Token" },
+                "examples": {
+                  "success": {
+                    "summary": "Example token response",
+                    "value": {
+                      "address": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+                      "symbol": "WETH",
+                      "decimals": 18,
+                      "chainId": 1,
+                      "name": "Wrapped Ether",
+                      "coinKey": "WETH",
+                      "priceUSD": "3180.67",
+                      "logoURI": "https://github.com/trustwallet/assets/blob/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png?raw=true"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (missing or invalid parameters)",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" },
+                "examples": {
+                  "missingParam": {
+                    "value": {
+                      "error": 400,
+                      "message": "chain and token are required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          }
+        }
+      }
     }
+
   },
   "components": {
     "schemas": {
@@ -482,6 +638,54 @@
           }
         },
         "required": ["fromChainId", "toChainId"]
+      },
+      "Token": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "type": "string",
+            "description": "Token contract address"
+          },
+          "symbol": {
+            "type": "string",
+            "description": "Token ticker symbol (e.g., WETH)"
+          },
+          "decimals": {
+            "type": "integer",
+            "description": "Number of decimals used by the token"
+          },
+          "chainId": {
+            "type": "integer",
+            "description": "Chain ID to which the token belongs"
+          },
+          "name": {
+            "type": "string",
+            "description": "Human-readable token name"
+          },
+          "coinKey": {
+            "type": "string",
+            "description": "Short identifier for the token used across chains"
+          },
+          "priceUSD": {
+            "type": "string",
+            "description": "Token price in USD represented as a string"
+          },
+          "logoURI": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL of the token logo image"
+          }
+        },
+        "required": ["address", "symbol", "decimals", "chainId", "name", "coinKey"]
+      },
+      "TokensResponse": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Token"
+          }
+        }
       }
     }
   }
