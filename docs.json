@@ -28,7 +28,6 @@
             "pages": [
               "protocol/protocol-overview",
               "protocol/smart-contract-architecture",
-              "protocol/simple-vs-advanced-routing",
               "protocol/Custom-Fees"
                ]
           },
@@ -49,9 +48,7 @@
             "pages": [
               "api-reference/endpoint/get-a-quote-for-a-token-transfer",
               "api-reference/endpoint/get-chains",
-              "api-reference/endpoint/get-tools",
-              "api-reference/endpoint/get-token",
-              "api-reference/endpoint/get-tokens"
+              "api-reference/endpoint/get-tools"
             ]
           }
         ]
