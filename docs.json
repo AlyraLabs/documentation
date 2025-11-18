@@ -48,7 +48,8 @@
             "pages": [
               "api-reference/endpoint/get-a-quote-for-a-token-transfer",
               "api-reference/endpoint/get-chains",
-              "api-reference/endpoint/get-tools"
+              "api-reference/endpoint/get-tools",
+              "api-reference/endpoint/get-tokens"
             ]
           }
         ]
