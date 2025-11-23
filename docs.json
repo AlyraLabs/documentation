@@ -4,8 +4,8 @@
   "name": "Alyra",
   "colors": {
     "primary": "#000000",
-    "light": "#4F15FF",
-    "dark": "#000000"
+    "light": "#000000",
+    "dark": "#4F15FF"
   },
   "background": {
     "light": "#000000",
