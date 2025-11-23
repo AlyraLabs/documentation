@@ -13,7 +13,7 @@ This design makes Alyra:
 - **Upgradeable** — business logic evolves without changing the main contract address.
 - **Deterministic** — all routes follow strict execution rules encoded in the **Execution Packet**.
 
-Business logic lives inside Facet contracts, each responsible for interacting with a specific type of liquidity provider (e.g., bridges, DEXs, solvers).
+Business logic lives inside Facet contracts, each responsible for interacting with a specific type of liquidity provider (e.g., bridges, DEXs).
 
 ---
 
@@ -26,7 +26,13 @@ Example: a user swaps USDC on Ethereum for USDT on Arbitrum.
 3. The Bridge Facet encodes and forwards the transaction to the chosen bridge (e.g., Stargate).
 4. Settlement completes on the destination chain exactly as specified in the packet, or reverts safely if constraints are violated.
 
-   ![Contracts Pn](/images/contracts.png)
+   <img
+     src="/ContractsFlow.png"
+     alt=""
+     title=""
+     className="mr-auto"
+     style={{ width:"100%" }}
+   />
 
 ---
 
@@ -41,4 +47,4 @@ Alongside the main Diamond, Alyra deploys helper facets to support:
 
 This setup ensures **upgradeability**, **transparency**, and **secure administration** without compromising the deterministic execution core.
 
-![Helper Pn](/images/Helper.png)
+![](/Helpers.png)
