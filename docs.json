@@ -3,9 +3,9 @@
   "theme": "maple",
   "name": "Alyra",
   "colors": {
-    "primary": "#4F15FF",
-    "light": "#4F15FF",
-    "dark": "#4F15FF"
+    "primary": "#6155F5",
+    "light": "#6155F5",
+    "dark": "#6155F5"
   },
   "background": {
     "light": "#000000",
