@@ -7,6 +7,10 @@
     "light": "#FFEBDC",
     "dark": "#FFEBDC"
   },
+  "background": {
+    "light": "#000000",
+    "dark": "#000000"
+  },
   "favicon": {
     "light": "/favicon.png",
     "dark": "/favicon-dark.png"
@@ -29,7 +33,7 @@
               "protocol/protocol-overview",
               "protocol/smart-contract-architecture",
               "protocol/Custom-Fees"
-               ]
+            ]
           },
           {
             "group": "INTEGRATIONS",
@@ -43,7 +47,6 @@
         "tab": "API reference",
         "groups": [
           {
-        
             "group": "Endpoints",
             "pages": [
               "api-reference/endpoint/get-a-quote-for-a-token-transfer",
@@ -66,7 +69,7 @@
           "anchor": "GitHub",
           "href": "https://github.com/AlyraLabs/",
           "icon": "github"
-                  },
+        },
         {
           "anchor": "Status",
           "href": "https://status.alyra.finance",
