@@ -21,6 +21,12 @@ Business logic lives inside Facet contracts, each responsible for interacting wi
 
 ---
 
+<img
+  src="/ContractsFlow.png"
+  alt="Contracts Flow Pn"
+  style={{ width:"100%" }}
+/>
+
 #### Contract Flow
 
 Example: a user swaps USDC on Ethereum for USDT on Arbitrum.
@@ -29,14 +35,6 @@ Example: a user swaps USDC on Ethereum for USDT on Arbitrum.
 2. Diamond validates the packet and forwards the call to the appropriate **Bridge Facet**.
 3. The Bridge Facet encodes and forwards the transaction to the chosen bridge (e.g., Stargate).
 4. Settlement completes on the destination chain exactly as specified in the packet, or reverts safely if constraints are violated.
-
-   <img
-     src="/ContractsFlow.png"
-     alt=""
-     title=""
-     className="mr-auto"
-     style={{ width:"100%" }}
-   />
 
 ---
 
@@ -51,4 +49,8 @@ Alongside the main Diamond, Alyra deploys helper facets to support:
 
 This setup ensures **upgradeability**, **transparency**, and **secure administration** without compromising the deterministic execution core.
 
-![](/Helpers.png)
+<img
+  src="/Helpers.png"
+  alt=""
+  style={{ width:"100%" }}
+/>
