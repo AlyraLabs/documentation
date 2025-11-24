@@ -1,6 +1,9 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "maple",
+  "theme": {
+    "name": "maple",
+    "css": ["styles/custom.css"]
+  },
   "name": "Alyra",
   "colors": {
     "primary": "#6155F5",
