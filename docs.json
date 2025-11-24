@@ -61,19 +61,9 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Partner Portal",
-          "href": "https://portal.alyra.finance",
-          "icon": "house"
-        },
-        {
           "anchor": "GitHub",
           "href": "https://github.com/AlyraLabs/",
           "icon": "github"
-        },
-        {
-          "anchor": "Status",
-          "href": "https://status.alyra.finance",
-          "icon": "signal-bars"
         }
       ]
     }
