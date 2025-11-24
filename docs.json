@@ -88,12 +88,7 @@
         "label": "Support",
         "href": "https://t.me/whoisfedelya"
       }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Start Building",
-      "href": "https://portal.alyra.finance/"
-    }
+    ]
   },
   "contextual": {
     "options": [
