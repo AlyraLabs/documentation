@@ -9,8 +9,8 @@
   "name": "Alyra",
   "colors": {
     "primary": "#6155F5",
-    "light": "#6155F5",
-    "dark": "#333333"
+    "light": "#5C5A5A",
+    "dark": "#5C5A5A"
   },
   "background": {
     "light": "#000000",
@@ -37,7 +37,7 @@
             "pages": [
               "protocol/protocol-overview",
               "protocol/smart-contract-architecture",
-              "protocol/Custom-Fees"
+              "protocol/monetize-your-app"
             ]
           },
           {
