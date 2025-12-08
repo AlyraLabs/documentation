@@ -13,8 +13,8 @@
     "dark": "#6155F5"
   },
   "background": {
-    "light": "#000000",
-    "dark": "#000000"
+    "light": "#000001",
+    "dark": "#000001"
   },
   "favicon": {
     "light": "/favicon.png",
