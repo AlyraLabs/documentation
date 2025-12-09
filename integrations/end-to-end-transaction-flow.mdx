@@ -1,0 +1,239 @@
+---
+title: "End-to-End Transaction Flow"
+description: "How to request a quote from Alyra API and execute the returned transaction"
+---
+
+## Endpoint overview
+
+`GET https://api.alyra.finance/v1/quotes`
+
+### Query parameters
+
+| Parameter             | Type   | Required | Description                                                                                          |
+| --------------------- | ------ | -------- | ---------------------------------------------------------------------------------------------------- |
+| `senderAddress`       | string | ✅       | Address that sends the tokens (EVM or SVM address).                                                  |
+| `receiverAddress`     | string | ⚠️       | Address that receives the tokens. Can be optional for some flows, see notes below.                   |
+| `originChainId`       | number | ✅       | Chain ID of the source network.                                                                      |
+| `destinationChainId`  | number | ✅       | Chain ID of the target network.                                                                      |
+| `amount`              | string | ✅       | Amount in the smallest units (including all decimals).                                               |
+| `originCurrency`      | string | ✅       | Token you are sending (symbol or address, depending on your integration).                            |
+| `destinationCurrency` | string | ✅       | Token you want to receive (symbol or address, depending on your integration).                        |
+
+> 💡 **Address rules**
+>
+> - For simple EVM → EVM flow, `receiverAddress` can usually be omitted – your backend may default it to `senderAddress`.
+> - For EVM ↔ SVM flows, `receiverAddress` **must** be provided and must be different from `senderAddress`.
+
+---
+
+## Quickstart: minimal working example
+
+The following example:
+
+1. Requests a quote from Ethereum Mainnet (1) to Polygon (137)
+2. Uses `USDT` as both origin and destination currency
+3. Sends the returned transaction using `ethers.js`
+
+> ⚠️ Replace all placeholder values (`YOUR_SENDER_ADDRESS`, `YOUR_MNEMONIC`, RPC URLs, etc.) with your actual values.
+
+<CodeGroup>
+  ```ts TypeScript theme={"system"}
+  import axios from "axios";
+  import { ethers } from "ethers";
+
+  const API_URL = "https://api.alyra.finance/v1";
+
+  // Replace with your own type when you define the API response
+  type QuoteResponse = any;
+
+  async function fetchQuote(): Promise<QuoteResponse> {
+    const senderAddress = "0xYOUR_SENDER_ADDRESS";
+    const receiverAddress = "0xYOUR_RECEIVER_ADDRESS"; // optional for some EVM→EVM flows
+
+    const params = {
+      senderAddress,
+      receiverAddress,
+      originChainId: 1,         // Ethereum Mainnet
+      destinationChainId: 137,  // Polygon PoS
+      amount: "25000000",       // 25 USDT if token has 6 decimals
+      originCurrency: "USDT",
+      destinationCurrency: "USDT",
+    };
+
+    const { data } = await axios.get<QuoteResponse>(`${API_URL}/quotes`, {
+      params,
+    });
+
+    return data;
+  }
+
+  async function main() {
+    // 1. Configure provider and signer for the origin chain
+    const provider = new ethers.JsonRpcProvider(
+      "https://mainnet.infura.io/v3/YOUR_INFURA_KEY",
+      1
+    );
+
+    // Do NOT hardcode the mnemonic in real apps – use environment variables / secure storage
+    const wallet = ethers.Wallet.fromPhrase("YOUR_MNEMONIC").connect(provider);
+
+    // 2. Fetch quote
+    const quote = await fetchQuote();
+
+    // 3. (Optional) Check allowance & approve
+    // Use the spender / approval address from the quote response in your own allowance helper.
+
+    // 4. Execute transaction
+    const txRequest = quote.transactionRequest;
+    if (!txRequest) {
+      throw new Error("transactionRequest is missing in the quote response");
+    }
+
+    const tx = await wallet.sendTransaction(txRequest);
+    const receipt = await tx.wait();
+
+    console.log("Transaction confirmed:", receipt.hash);
+  }
+
+  main().catch((error) => {
+    console.error("Quote example failed:", error);
+  });
+  ```
+</CodeGroup>
+
+
+## Breaking it down
+
+### 1. Building the quote request
+
+You can wrap the HTTP call into a small helper function:
+
+<CodeGroup>
+```ts TypeScript theme={"system"}
+import axios from "axios";
+
+const API_URL = "https://api.alyra.finance/v1";
+
+type QuoteResponse = any; // customize
+
+export async function getQuote(params: {
+  senderAddress: string;
+  receiverAddress?: string;
+  originChainId: number;
+  destinationChainId: number;
+  amount: string;
+  originCurrency: string;
+  destinationCurrency: string;
+}): Promise<QuoteResponse> {
+  const { data } = await axios.get<QuoteResponse>(`${API_URL}/quotes`, {
+    params,
+  });
+  return data;
+}
+```
+</CodeGroup>
+
+Usage example:
+
+<CodeGroup>
+```ts TypeScript theme={"system"}
+const quote = await getQuote({
+  senderAddress: "0xYOUR_SENDER_ADDRESS",
+  // receiverAddress can be omitted for some EVM→EVM paths
+  originChainId: 1,
+  destinationChainId: 137,
+  amount: "25000000",
+  originCurrency: "USDT",
+  destinationCurrency: "USDT",
+});
+```
+</CodeGroup>
+
+
+### 2. Plugging into your wallet layer
+
+You can reuse your existing wallet abstraction.
+A typical pattern with ethers.js might look like this:
+
+<CodeGroup>
+```ts TypeScript theme={"system"}
+import { ethers } from "ethers";
+
+const provider = new ethers.JsonRpcProvider(
+  "https://polygon-rpc.com",
+  137 // If you want to sign directly on another chain in a different flow
+);
+
+// In many real apps you get signer from browser wallet
+const wallet = ethers.Wallet.fromPhrase("YOUR_MNEMONIC").connect(provider);
+```
+</CodeGroup>
+
+If you are using wagmi, RainbowKit or another library,
+you usually obtain the signer from these providers instead of manually.
+
+
+### 3. Allowance (optional but common)
+
+Most ERC-20 flows require:
+1. Reading current allowance of `senderAddress` for a `spender`  
+2. Calling `approve` if it's lower than the required amount  
+
+The spender (approval address) is typically provided in the quote response.
+The exact field depends on your API shape (`quote.estimate.approvalAddress`, etc).
+
+You can reuse your existing helper:
+
+<CodeGroup>
+```ts TypeScript theme={"system"}
+async function ensureAllowance(args: {
+  tokenAddress: string;
+  spender: string;
+  requiredAmount: bigint;
+  wallet: ethers.Wallet;
+}) {
+  // read allowance(...) and approve(...) here using your own logic
+}
+```
+</CodeGroup>
+
+Call it before executing the transaction:
+
+<CodeGroup>
+```ts TypeScript theme={"system"}
+const quote = await getQuote(/* ... */);
+
+// Example: extract fields from your API
+const tokenAddress = quote.action?.fromToken?.address;
+const spender = quote.estimate?.approvalAddress;
+
+if (tokenAddress && spender) {
+  await ensureAllowance({
+    tokenAddress,
+    spender,
+    requiredAmount: BigInt("25000000"),
+    wallet,
+  });
+}
+```
+</CodeGroup>
+
+
+### 4. Executing the quote
+
+Once you have a transactionRequest compatible with ethers.js, execution is simple:
+
+<CodeGroup>
+```ts TypeScript theme={"system"}
+const txRequest = quote.transactionRequest;
+
+if (!txRequest) {
+  throw new Error("transactionRequest is missing in the quote response");
+}
+
+const tx = await wallet.sendTransaction(txRequest);
+const receipt = await tx.wait();
+
+console.log("Hash:", receipt.hash);
+```
+</CodeGroup>

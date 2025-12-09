@@ -43,7 +43,8 @@
           {
             "group": "INTEGRATIONS",
             "pages": [
-              "integrations/supported-chains"
+              "integrations/supported-chains",
+              "integrations/end-to-end-transaction-flow"
             ]
           }
         ]
@@ -57,7 +58,8 @@
               "api-reference/endpoint/get-a-quote-for-a-token-transfer",
               "api-reference/endpoint/get-chains",
               "api-reference/endpoint/get-tools",
-              "api-reference/endpoint/get-tokens"
+              "api-reference/endpoint/get-tokens",
+              "api-reference/endpoint/get-token"
             ]
           }
         ]
