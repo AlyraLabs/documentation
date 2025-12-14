@@ -11,17 +11,20 @@ openapi: "GET /v1/tools"
 
 ### Fetch all tools
 
-```ts
+<CodeGroup>
+  ```ts TypeScript theme={"system"}
 import axios from "axios";
 
 const response = await axios.get("https://api.alyra.finance/v1/tools");
 
 console.log(response);
-```
+  ```
+</CodeGroup>
 
 ### Fetch tools filtered by chain IDs
 
-```ts
+<CodeGroup>
+  ```ts TypeScript theme={"system"}
 import axios from "axios";
 
 const response = await axios.get("https://api.alyra.finance/v1/tools", {
@@ -29,4 +32,5 @@ const response = await axios.get("https://api.alyra.finance/v1/tools", {
 });
 
 console.log(response);
-```
+  ```
+</CodeGroup>

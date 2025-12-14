@@ -11,7 +11,8 @@ openapi: "GET /v1/token"
 
 ### Fetch token by chain ID and token address
 
-```ts
+<CodeGroup>
+  ```ts TypeScript theme={"system"}
 import axios from "axios";
 
 const response = await axios.get("https://api.alyra.finance/v1/token", {
@@ -19,11 +20,13 @@ const response = await axios.get("https://api.alyra.finance/v1/token", {
 });
 
 console.log(response);
-```
+  ```
+</CodeGroup>
 
 ### Fetch token by chain ID and symbol
 
-```ts
+<CodeGroup>
+  ```ts TypeScript theme={"system"}
 import axios from "axios";
 
 const response = await axios.get("https://api.alyra.finance/v1/token", {
@@ -31,11 +34,13 @@ const response = await axios.get("https://api.alyra.finance/v1/token", {
 });
 
 console.log(response);
-```
+  ```
+</CodeGroup>
 
 ### Fetch token by chain key and symbol
 
-```ts
+<CodeGroup>
+  ```ts TypeScript theme={"system"}
 import axios from "axios";
 
 const response = await axios.get("https://api.alyra.finance/v1/token", {
@@ -43,11 +48,13 @@ const response = await axios.get("https://api.alyra.finance/v1/token", {
 });
 
 console.log(response);
-```
+  ```
+</CodeGroup>
 
 ### Fetch token by chain key and token address
 
-```ts
+<CodeGroup>
+  ```ts TypeScript theme={"system"}
 import axios from "axios";
 
 const response = await axios.get("https://api.alyra.finance/v1/token", {
@@ -55,4 +62,5 @@ const response = await axios.get("https://api.alyra.finance/v1/token", {
 });
 
 console.log(response);
-```
+  ```
+</CodeGroup>
