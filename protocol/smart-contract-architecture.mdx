@@ -9,7 +9,7 @@ title: "Smart Contract Architecture"
 ### Architecture
 
 Alyra contracts are built using the **EIP-2535 Diamond Standard (Multi-facet Proxy)**.\
-All execution flows go through the **Alyra Diamond** — a single-entry-point contract that delegates calls to specialized **Facet Modules**.
+All execution flows go through the **Alyra Diamond** — a single-entry-point contract that delegates calls to specialised **Facet Modules**.
 
 This design makes Alyra:
 
@@ -45,7 +45,7 @@ Alongside the main Diamond, Alyra deploys helper facets to support:
 - **DiamondCutFacet** — add, replace, or remove facet logic.
 - **DiamondLoupeFacet** — query available functions and facet addresses.
 - **OwnershipFacet** — manage contract ownership and permissions.
-- **WithdrawFacet** — enable authorized withdrawal of fees or funds.
+- **WithdrawFacet** — enable authorised funds withdrawal.
 
 This setup ensures **upgradeability**, **transparency**, and **secure administration** without compromising the deterministic execution core.
 
