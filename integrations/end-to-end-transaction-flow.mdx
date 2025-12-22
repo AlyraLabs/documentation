@@ -16,13 +16,13 @@ description: "How to request a quote from Alyra API and execute the returned tra
 | `originChainId`       | number | ✅       | Chain ID of the source network.                                                                      |
 | `destinationChainId`  | number | ✅       | Chain ID of the target network.                                                                      |
 | `amount`              | string | ✅       | Amount in the smallest units (including all decimals).                                               |
-| `originCurrency`      | string | ✅       | Token you are sending (symbol or address, depending on your integration).                            |
-| `destinationCurrency` | string | ✅       | Token you want to receive (symbol or address, depending on your integration).                        |
+| `originCurrency`      | string | ✅       | The token address you are sending.                            |
+| `destinationCurrency` | string | ✅       | The token address you want to receive.                        |
 
 > 💡 **Address rules**
 >
 > - For simple EVM → EVM flow, `receiverAddress` can usually be omitted – your backend may default it to `senderAddress`.
-> - For EVM ↔ SVM flows, `receiverAddress` **must** be provided and must be different from `senderAddress`.
+> - For EVM ↔ SVM (or other networks) flows, `receiverAddress` **must** be provided and must be different from `senderAddress`.
 
 ---
 
@@ -56,8 +56,8 @@ The following example:
       originChainId: 1,         // Ethereum Mainnet
       destinationChainId: 137,  // Polygon PoS
       amount: "25000000",       // 25 USDT if token has 6 decimals
-      originCurrency: "USDT",
-      destinationCurrency: "USDT",
+      originCurrency: "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+      destinationCurrency: "0xc2132D05D31c914a87C6611C10748AEb04B58e8F",
     };
 
     const { data } = await axios.get<QuoteResponse>(`${API_URL}/quotes`, {
@@ -143,8 +143,8 @@ const quote = await getQuote({
   originChainId: 1,
   destinationChainId: 137,
   amount: "25000000",
-  originCurrency: "USDT",
-  destinationCurrency: "USDT",
+  originCurrency: "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+  destinationCurrency: "0xc2132D05D31c914a87C6611C10748AEb04B58e8F",
 });
 ```
 </CodeGroup>
