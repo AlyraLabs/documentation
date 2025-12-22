@@ -53,7 +53,7 @@
         "tab": "API reference",
         "groups": [
           {
-            "group": "Endpoints",
+            "group": "API Endpoints",
             "pages": [
               "api-reference/endpoint/get-a-quote-for-a-token-transfer",
               "api-reference/endpoint/get-chains",
