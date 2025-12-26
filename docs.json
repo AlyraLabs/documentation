@@ -8,13 +8,13 @@
   },
   "name": "Alyra",
   "colors": {
-    "primary": "#6155F5",
-    "light": "#6155F5",
-    "dark": "#6155F5"
+    "primary": "#0088FF",
+    "light": "#0088FF",
+    "dark": "#0088FF"
   },
   "background": {
     "color": {
-      "dark": "#000000", 
+      "dark": "#080A08", 
       "light": "#ffffff"
     }
   },
