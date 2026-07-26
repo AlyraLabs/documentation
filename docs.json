@@ -102,9 +102,9 @@
               "api-reference/openapi-spec",
               "api-reference/rate-limits",
               {
-                "group": "Error responses",
+                "group": "Errors and warnings",
                 "pages": [
-                  
+                  "api-reference/errors",
                   "api-reference/warnings"
                 ]
               }
@@ -120,7 +120,16 @@
               "api-reference/endpoint/get-tools",
               "api-reference/endpoint/get-tokens",
               "api-reference/endpoint/get-prices",
-              "api-reference/endpoint/get-token"
+              "api-reference/endpoint/get-token",
+              {
+                "group": "Transaction Tracking",
+                "pages": [
+                  "api-reference/transaction-tracking/overview",
+                  "api-reference/endpoint/get-transactions",
+                  "api-reference/endpoint/get-transaction",
+                  "api-reference/endpoint/get-transaction-status"
+                ]
+              }
             ]
           }
         ]

@@ -1,6 +1,6 @@
 ---
 title: Rate Limits and API Authentication
-description: Rate limits are tracked by client IP and endpoint scope. A valid x-api-key selects the authenticated limit tier.
+description: Rate limits vary by authentication tier and endpoint scope. A valid x-api-key selects the authenticated limit tier.
 "og:image": "https://docs.delora.build/images/docs-og.png"
 ---
 
@@ -22,7 +22,7 @@ description: Rate limits are tracked by client IP and endpoint scope. A valid x-
 
 > Higher limits may be available for clients in the custom terms. Please [Contact Us](https://t.me/whoisfedelya) for more information.
 
-Rate limits are tracked by client IP and endpoint scope. Quote-related endpoints share one quote counter, while the rest of the public endpoints share a separate counter. A valid `x-api-key` selects the authenticated limit tier and may use a custom requests-per-minute limit configured for your integration.
+Quote-related endpoints and other public endpoints use separate rate-limit scopes. A valid `x-api-key` selects the authenticated tier and may use a custom requests-per-minute limit configured for your integration.
 
 If you exceed your rate limits, you’ll receive a `429 Too Many Requests` HTTP response.
 
@@ -50,7 +50,7 @@ To avoid hitting rate limits:
 ## Using the API key
 
 <Note>
-The Delora API does not require an API key by default. API keys are used for higher rate limits.
+Most Delora routing endpoints work without an API key, although an API key enables the authenticated tier. The Transaction Tracking API (`/v1/transactions*`) always requires a valid API key.
 </Note>
 Authentication to Delora API is performed via the custom HTTP header x-api-key with an API key.
 
@@ -66,6 +66,12 @@ Never expose your x-api-key in client-side environments such as browser-based Ja
 </Danger>
 
 For browser-based widget integrations, keep the API key on your backend and proxy Delora requests server-side. The current `@deloraprotocol/widget` implementation supports this by letting you point `config.apiUrl` at your proxy instead of passing `apiKey` from the browser. See [Configure Widget](/widget/basic-setup/configure-widget).
+
+## Transaction Tracking API
+
+`GET /v1/transactions`, `GET /v1/transactions/{txHash}`, and `GET /v1/transactions/{txHash}/status` require a valid `x-api-key`. The key scopes returned tracking data to its associated integrator.
+
+Use the API key only from your backend. If your product exposes transaction history to end users, authorize those users in your own backend before forwarding a tracking request to Delora.
 
 ## Need Higher Limits?
 

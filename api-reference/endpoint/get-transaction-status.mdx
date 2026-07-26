@@ -1,0 +1,16 @@
+---
+title: Get a tracked transaction status
+openapi: "GET /v1/transactions/{txHash}/status"
+"og:image": "https://docs.delora.build/images/docs-og.png"
+---
+
+Return the current lightweight tracking status for a source or destination transaction hash. Use this endpoint when polling an existing transaction instead of repeatedly fetching the full transaction object.
+
+```bash
+curl 'https://api.delora.build/v1/transactions/0xSOURCE_OR_DESTINATION_HASH/status' \
+  --header 'x-api-key: YOUR_API_KEY'
+```
+
+The response contains `id`, `transactionId`, source and destination hashes, `status`, `substatus`, `statusSource`, and `updatedAt`.
+
+This reads the latest status stored by Delora's asynchronous workers; it does not trigger a live provider lookup. Use backoff between polls and handle `429` and `503` responses. See [status lifecycle semantics](/api-reference/transaction-tracking/overview#status-lifecycle).

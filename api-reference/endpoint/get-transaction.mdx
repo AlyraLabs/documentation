@@ -1,0 +1,18 @@
+---
+title: Get a tracked transaction
+openapi: "GET /v1/transactions/{txHash}"
+"og:image": "https://docs.delora.build/images/docs-og.png"
+---
+
+Get one tracking record by either its source transaction hash or destination transaction hash. Hash matching is case-insensitive.
+
+```bash
+curl 'https://api.delora.build/v1/transactions/0xSOURCE_OR_DESTINATION_HASH' \
+  --header 'x-api-key: YOUR_API_KEY'
+```
+
+<Note>
+`404` deliberately covers both unknown hashes and hashes outside your integrator scope. Delora does not reveal whether another integrator owns a transaction.
+</Note>
+
+The response uses the same transaction object returned by [List tracked transactions](/api-reference/endpoint/get-transactions). See [Transaction Tracking API](/api-reference/transaction-tracking/overview) for field and status semantics.

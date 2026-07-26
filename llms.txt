@@ -16,7 +16,8 @@ For machine-readable schemas:
 
 - OpenAPI spec for the Delora API: https://docs.delora.build/openapi.yaml
 - OpenAPI JSON for the Delora API: https://docs.delora.build/openapi.json
-- Swagger UI for the Delora API: https://api.delora.build/swagger
+
+For Transaction Tracking, use the docs-hosted OpenAPI files as the public contract.
 
 ## Canonical Page List
 
@@ -30,9 +31,14 @@ For machine-readable schemas:
 8. Get tokens: https://docs.delora.build/api-reference/endpoint/get-tokens
 9. Get token prices: https://docs.delora.build/api-reference/endpoint/get-prices
 10. Get token: https://docs.delora.build/api-reference/endpoint/get-token
-11. Error responses and warnings: https://docs.delora.build/api-reference/warnings
-12. Widget overview: https://docs.delora.build/widget/overview
-13. MCP server overview: https://docs.delora.build/mcp-server/overview
+11. Transaction Tracking overview: https://docs.delora.build/api-reference/transaction-tracking/overview
+12. List tracked transactions: https://docs.delora.build/api-reference/endpoint/get-transactions
+13. Get a tracked transaction: https://docs.delora.build/api-reference/endpoint/get-transaction
+14. Get tracked transaction status: https://docs.delora.build/api-reference/endpoint/get-transaction-status
+15. API errors: https://docs.delora.build/api-reference/errors
+16. Quote warnings: https://docs.delora.build/api-reference/warnings
+17. Widget overview: https://docs.delora.build/widget/overview
+18. MCP server overview: https://docs.delora.build/mcp-server/overview
 
 ## API
 
@@ -48,12 +54,18 @@ Key endpoints:
 - `GET /v1/tokens` - List supported tokens grouped by chain ID.
 - `GET /v1/prices` - Get cached token price snapshots.
 - `GET /v1/token` - Get token metadata by chain and address or symbol.
+- `GET /v1/transactions` - List transactions tracked for the authenticated integrator.
+- `GET /v1/transactions/{txHash}` - Get one tracked transaction by source or destination hash.
+- `GET /v1/transactions/{txHash}/status` - Get the lightweight current tracking status for one transaction.
+
+Transaction Tracking endpoints require `x-api-key` and return data only for the integrator associated with that key.
 
 ## Sitemap
 
 - Overview: https://docs.delora.build/about
 - Protocol: https://docs.delora.build/protocol/protocol-overview
 - API Reference: https://docs.delora.build/api-reference/openapi-spec
+- Transaction Tracking: https://docs.delora.build/api-reference/transaction-tracking/overview
 - Widget: https://docs.delora.build/widget/overview
 - MCP Server: https://docs.delora.build/mcp-server/overview
 - Examples: https://docs.delora.build/examples/metadata-api

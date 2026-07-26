@@ -1,0 +1,26 @@
+---
+title: API errors
+description: HTTP error behavior for Delora API endpoints, including Transaction Tracking.
+"og:image": "https://docs.delora.build/images/docs-og.png"
+---
+
+Delora returns a JSON error body with `statusCode`, `code`, `message`, `timestamp`, and, when available, `details` and `path`.
+
+For authentication and authorization failures, treat the HTTP status as authoritative. Do not rely on the current `code` value as a stable authorization enum.
+
+## Transaction Tracking errors
+
+| HTTP status | When it occurs | Client action |
+| --- | --- | --- |
+| `400` | A list parameter is invalid, such as an unsupported status or a limit outside `1`–`200`. | Correct the request; do not retry unchanged. |
+| `401` | `x-api-key` is missing or invalid. | Verify server-side credentials. |
+| `403` | The optional `integrator` parameter does not match the API key's integrator. | Omit it or use the key's exact integrator. |
+| `404` | A transaction hash is unknown or outside the key's scope. | Treat as not available to this integration. |
+| `429` | The request limit was exceeded. | Back off and retry later. |
+| `503` | The tracking service is temporarily unavailable. | Retry with exponential backoff. |
+
+The [rate-limit response headers](/api-reference/rate-limits#rate-limit-headers) help clients pace requests.
+
+## Quote warnings
+
+Quote warnings are non-fatal response fields and are distinct from HTTP errors. See [Warnings](/api-reference/warnings).

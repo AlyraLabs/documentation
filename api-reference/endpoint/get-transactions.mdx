@@ -1,0 +1,41 @@
+---
+title: List tracked transactions
+openapi: "GET /v1/transactions"
+"og:image": "https://docs.delora.build/images/docs-og.png"
+---
+
+List tracking records for the integrator associated with `x-api-key`.
+
+<Note>
+The API key determines the integrator scope. Omit `integrator` in normal requests. If you send it, it must exactly match the integrator associated with the key.
+</Note>
+
+## Filters
+
+All supplied filters combine with `AND`.
+
+| Parameter | Notes |
+| --- | --- |
+| `cursor` | Opaque pagination cursor returned by a prior response. Do not construct, decode, or alter it. |
+| `limit` | Number of records: `1`–`200`; defaults to `50`. |
+| `status` | One of the documented tracking statuses. |
+| `routeType` | `bridge`, `swap`, `bridge_swap`, or `unknown`. |
+| `sourceChainId` | Canonical source chain ID. |
+| `destChainId` | Canonical destination chain ID. |
+| `integrator` | Optional same-scope assertion only. A different integrator returns `403`. |
+
+Results are ordered newest first by source timestamp. `nextCursor` is `null` when there are no more results. The API does not return a total count or provide a snapshot guarantee while new transactions are being ingested.
+
+## Response data
+
+Each item is the full tracking record. Amounts and fees use decimal strings in raw token units, and enrichment fields may be `null` when unavailable rather than zero. Use canonical chain IDs for filters, preserve `nextCursor` unchanged, and treat provider diagnostics as supplementary data. See [Transaction Tracking API](/api-reference/transaction-tracking/overview#chain-ids-and-data-quality) for the complete field contract.
+
+```bash
+curl --get 'https://api.delora.build/v1/transactions' \
+  --data-urlencode 'limit=50' \
+  --data-urlencode 'status=bridge_pending' \
+  --data-urlencode 'destChainId=42161' \
+  --header 'x-api-key: YOUR_API_KEY'
+```
+
+Use returned raw amounts and fees as strings. See [Transaction Tracking API](/api-reference/transaction-tracking/overview) for status, chain-ID, and nullable-field semantics.
