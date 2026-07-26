@@ -1,0 +1,221 @@
+---
+title: Track a submitted transaction
+description: Persist a Delora source transaction hash, handle asynchronous ingestion, and poll the current status safely.
+"og:image": "https://docs.delora.build/images/docs-og.png"
+---
+
+Use this flow after your backend has submitted a Delora transaction and received its source transaction hash. The Transaction Tracking API is asynchronous: it is a scanner read model, not an on-demand chain or bridge-provider query.
+
+<Note>
+All tracking requests require `x-api-key` and must be made from your backend. The key returns records only for its associated integrator. Authorize your own end users before returning tracking data to them.
+</Note>
+
+## Recommended flow
+
+1. Submit the transaction and persist the source transaction hash with your own order or user record.
+2. Wait for the source transaction to be confirmed.
+3. Call [`GET /v1/transactions/{txHash}/status`](/api-reference/endpoint/get-transaction-status).
+4. A known, just-submitted hash can initially return `404` while analytics ingestion catches up. Retry it with bounded backoff.
+5. Once a record exists, poll the lightweight status endpoint while the status is non-terminal. Fetch the full record only when you need token, fee, chain, or diagnostic fields.
+6. Stop automatic polling for terminal statuses and persist the result in your own system.
+
+There are no webhooks. See [Transaction Tracking API](/api-reference/transaction-tracking/overview#freshness-and-enrichment) for typical worker refresh behavior and data-quality constraints.
+
+## Polling cadence
+
+This is a client-side recommendation, not an API SLA:
+
+- After source confirmation, retry an initial `404` after 30 seconds, then use exponential backoff up to 60 seconds between attempts.
+- For `bridge_pending`, `refund_pending`, or `unknown`, poll no more often than once per 60 seconds. Increase the interval after sustained waiting rather than polling indefinitely.
+- Set an application-level timeout and reconciliation/support path appropriate to your product. A pending bridge can take longer than a normal API request.
+
+The scanner ingests analytics approximately every minute and refreshes eligible bridge statuses about every two minutes. Polling faster than the read model updates usually returns the same stored state.
+
+## Server-side polling example
+
+Keep `DELORA_API_KEY` in your server environment; do not expose it in browser code.
+
+```ts TypeScript
+type TrackingStatus =
+  | 'success'
+  | 'recovered'
+  | 'bridge_pending'
+  | 'refund_pending'
+  | 'refunded'
+  | 'bridge_failed'
+  | 'unknown';
+
+type StatusResponse = {
+  id: string;
+  transactionId: string | null;
+  sourceTxHash: string;
+  destTxHash: string | null;
+  status: TrackingStatus;
+  substatus: string | null;
+  statusSource: 'analytics' | 'receipt' | 'bridge_api' | 'mixed' | 'unknown';
+  updatedAt: string;
+};
+
+type PollResult =
+  | { kind: 'not_yet_available' }
+  | { kind: 'rate_limited'; resetAt: string | null }
+  | { kind: 'temporarily_unavailable' }
+  | { kind: 'status'; value: StatusResponse };
+
+export async function getTrackingStatus(sourceTxHash: string): Promise<PollResult> {
+  const response = await fetch(
+    `https://api.delora.build/v1/transactions/${encodeURIComponent(sourceTxHash)}/status`,
+    {
+      headers: { 'x-api-key': process.env.DELORA_API_KEY! },
+    },
+  );
+
+  if (response.status === 404) {
+    // For a source hash your backend just submitted, retry with bounded backoff.
+    // For an arbitrary hash, treat this as unavailable: Delora does not disclose
+    // whether another integrator owns a matching transaction.
+    return { kind: 'not_yet_available' };
+  }
+
+  if (response.status === 429) {
+    return {
+      kind: 'rate_limited',
+      resetAt: response.headers.get('X-RateLimit-Reset'),
+    };
+  }
+
+  if (response.status === 503) {
+    return { kind: 'temporarily_unavailable' };
+  }
+
+  if (!response.ok) {
+    throw new Error(`Delora tracking request failed: ${response.status}`);
+  }
+
+  return { kind: 'status', value: (await response.json()) as StatusResponse };
+}
+
+export function isTerminal(status: TrackingStatus): boolean {
+  return ['success', 'recovered', 'refunded', 'bridge_failed'].includes(status);
+}
+```
+
+## How to handle responses
+
+| Result | Meaning | Recommended action |
+| --- | --- | --- |
+| `404` for a hash your backend just submitted | The scanner may not have ingested the event yet. | Retry with bounded backoff. |
+| `404` for an arbitrary hash | The hash is unknown or outside the integrator scope. | Treat it as unavailable; do not infer ownership. |
+| `bridge_pending`, `refund_pending`, or `unknown` | The route is still awaiting tracking information or reconciliation. | Continue low-frequency polling. Display `substatus` only as supplementary diagnostic text. |
+| `success`, `recovered`, `refunded`, or `bridge_failed` | Terminal tracking outcome. | Stop automatic polling and persist the outcome. |
+| `429` | The request limit was reached. | Pause until `X-RateLimit-Reset`, then resume at a lower cadence. |
+| `503` | The scanner service is temporarily unavailable. | Retry with exponential backoff. |
+| `401` | The API key is missing or invalid. | Fix server-side credentials; do not retry unchanged. |
+
+`substatus` and `rawBridgeStatus` are not stable client contracts. Use the top-level `status` for business logic. For status meanings and terminal-state caveats, see [Status lifecycle](/api-reference/transaction-tracking/overview#status-lifecycle).
+
+## Full tracking record example
+
+Use [`GET /v1/transactions/{txHash}`](/api-reference/endpoint/get-transaction) when the UI or reconciliation process needs the complete record. This sanitized example shows a provider-specific destination chain ID (`57`) normalized to Arbitrum (`42161`).
+
+```json
+{
+  "id": "12345",
+  "transactionId": "delora-example-transaction",
+  "sourceTxHash": "0x1111111111111111111111111111111111111111111111111111111111111111",
+  "destTxHash": "0x2222222222222222222222222222222222222222222222222222222222222222",
+  "sourceBlockNumber": 24567890,
+  "sourceLogIndex": 17,
+  "sourceChainId": 8453,
+  "destChainId": 42161,
+  "canonicalSourceChainId": 8453,
+  "canonicalDestChainId": 42161,
+  "protocolRawSourceChainId": 8453,
+  "protocolRawDestChainId": 57,
+  "sourceNetwork": "Base",
+  "destNetwork": "Arbitrum",
+  "date": "2026-07-26T12:00:00.000Z",
+  "sourceBlockTimestamp": "2026-07-26T12:00:00.000Z",
+  "destinationBlockTimestamp": "2026-07-26T12:03:00.000Z",
+  "sender": "0x3333333333333333333333333333333333333333",
+  "receiver": "0x4444444444444444444444444444444444444444",
+  "integrator": "example_integrator",
+  "protocol": "GASZIP",
+  "routeType": "bridge_swap",
+  "hasDestCall": true,
+  "inputToken": {
+    "chainId": 8453,
+    "address": "0x5555555555555555555555555555555555555555",
+    "symbol": "USDC",
+    "amountRaw": "1000000",
+    "amountFormatted": "1",
+    "decimals": 6,
+    "amountUsd": "1.00"
+  },
+  "outputToken": {
+    "chainId": 42161,
+    "address": "0x6666666666666666666666666666666666666666",
+    "symbol": "USDC",
+    "amountRaw": "997000",
+    "amountFormatted": "0.997",
+    "decimals": 6,
+    "amountUsd": "0.997"
+  },
+  "sourceGasFee": {
+    "token": "ETH",
+    "amountRaw": "21000000000000",
+    "amountFormatted": "0.000021",
+    "decimals": 18,
+    "amountUsd": "0.07"
+  },
+  "destinationGasFee": null,
+  "integratorFee": {
+    "token": "USDC",
+    "amountRaw": "1000",
+    "amountFormatted": "0.001",
+    "decimals": 6,
+    "amountUsd": "0.001"
+  },
+  "deloraFee": {
+    "token": "USDC",
+    "amountRaw": "2000",
+    "amountFormatted": "0.002",
+    "decimals": 6,
+    "amountUsd": "0.002"
+  },
+  "status": "bridge_pending",
+  "substatus": "waiting_destination_delora_event",
+  "statusSource": "bridge_api",
+  "bridgeScanUrl": "https://www.gas.zip/scan/tx/0x1111111111111111111111111111111111111111111111111111111111111111",
+  "rawBridgeStatus": {
+    "status": "success"
+  },
+  "lastReceiptCheckedAt": "2026-07-26T12:01:00.000Z",
+  "lastBridgeCheckedAt": "2026-07-26T12:03:10.000Z",
+  "lastBridgeSuccessCheckedAt": "2026-07-26T12:03:10.000Z",
+  "createdAt": "2026-07-26T12:00:30.000Z",
+  "updatedAt": "2026-07-26T12:03:10.000Z"
+}
+```
+
+`protocolRawDestChainId` is diagnostic only. Use `canonicalDestChainId` and the list endpoint's `destChainId` filter for application logic.
+
+## Lightweight status response example
+
+```json
+{
+  "id": "12345",
+  "transactionId": "delora-example-transaction",
+  "sourceTxHash": "0x1111111111111111111111111111111111111111111111111111111111111111",
+  "destTxHash": "0x2222222222222222222222222222222222222222222222222222222222222222",
+  "status": "bridge_pending",
+  "substatus": "waiting_destination_delora_event",
+  "statusSource": "bridge_api",
+  "updatedAt": "2026-07-26T12:03:10.000Z"
+}
+```
+
+## Record identity
+
+Use `id` as the stable tracking-record identifier. `transactionId` can be `null`, and a single source transaction can contain more than one tracked event/log. Do not treat a source transaction hash as a globally unique tracking-record ID.
+

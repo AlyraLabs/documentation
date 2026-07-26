@@ -2222,8 +2222,10 @@ components:
         code:
           enum:
             - NO_AVAILABLE_QUOTES
+            - AMOUNT_TOO_LOW
             - WRONG_ADDRESS
             - RATE_LIMIT
+            - SLIPPAGE_EXCEEDED
             - ADAPTER_BAD_REQUEST
             - ADAPTER_UNAUTHORIZED
             - ADAPTER_INTERNAL
@@ -2234,8 +2236,10 @@ components:
           description: |-
             Machine-readable Delora error code.
             - NO_AVAILABLE_QUOTES: No bridge or exchange adapter returned an executable quote for the requested transfer.
+            - AMOUNT_TOO_LOW: The requested input amount is below the minimum supported by the available bridge route.
             - WRONG_ADDRESS: A wallet address is missing, malformed, or incompatible with the requested chain type.
             - RATE_LIMIT: The request exceeded the configured rate limit.
+            - SLIPPAGE_EXCEEDED: The expected output amount fell below the route's permitted minimum.
             - ADAPTER_BAD_REQUEST: An upstream bridge or exchange adapter rejected the request as invalid.
             - ADAPTER_UNAUTHORIZED: An upstream bridge or exchange adapter rejected the request because credentials are missing or invalid.
             - ADAPTER_INTERNAL: An upstream bridge or exchange adapter failed with an internal error.
@@ -2244,8 +2248,10 @@ components:
             - UNKNOWN: The request failed with an unexpected error that does not map to a more specific code.
           x-enumDescriptions:
             - No bridge or exchange adapter returned an executable quote for the requested transfer.
+            - The requested input amount is below the minimum supported by the available bridge route.
             - A wallet address is missing, malformed, or incompatible with the requested chain type.
             - The request exceeded the configured rate limit.
+            - The expected output amount fell below the route's permitted minimum.
             - An upstream bridge or exchange adapter rejected the request as invalid.
             - An upstream bridge or exchange adapter rejected the request because credentials are missing or invalid.
             - An upstream bridge or exchange adapter failed with an internal error.

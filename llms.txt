@@ -37,8 +37,9 @@ For Transaction Tracking, use the docs-hosted OpenAPI files as the public contra
 14. Get tracked transaction status: https://docs.delora.build/api-reference/endpoint/get-transaction-status
 15. API errors: https://docs.delora.build/api-reference/errors
 16. Quote warnings: https://docs.delora.build/api-reference/warnings
-17. Widget overview: https://docs.delora.build/widget/overview
-18. MCP server overview: https://docs.delora.build/mcp-server/overview
+17. Track a submitted transaction: https://docs.delora.build/examples/transaction-flow/track-a-submitted-transaction
+18. Widget overview: https://docs.delora.build/widget/overview
+19. MCP server overview: https://docs.delora.build/mcp-server/overview
 
 ## API
 
@@ -66,6 +67,7 @@ Transaction Tracking endpoints require `x-api-key` and return data only for the 
 - Protocol: https://docs.delora.build/protocol/protocol-overview
 - API Reference: https://docs.delora.build/api-reference/openapi-spec
 - Transaction Tracking: https://docs.delora.build/api-reference/transaction-tracking/overview
+- Track a submitted transaction: https://docs.delora.build/examples/transaction-flow/track-a-submitted-transaction
 - Widget: https://docs.delora.build/widget/overview
 - MCP Server: https://docs.delora.build/mcp-server/overview
 - Examples: https://docs.delora.build/examples/metadata-api

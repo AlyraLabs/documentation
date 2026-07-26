@@ -75,6 +75,7 @@
             "pages": [
               "examples/transaction-flow/solana",
               "examples/transaction-flow/ethereum",
+              "examples/transaction-flow/track-a-submitted-transaction",
               "examples/metadata-api"
             ]
           },
