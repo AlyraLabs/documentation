@@ -30,6 +30,8 @@ Results are ordered newest first by source timestamp. `nextCursor` is `null` whe
 
 Each item is the full tracking record. Amounts and fees use decimal strings in raw token units, and enrichment fields may be `null` when unavailable rather than zero. Use canonical chain IDs for filters, preserve `nextCursor` unchanged, and treat provider diagnostics as supplementary data. See [Transaction Tracking API](/api-reference/transaction-tracking/overview#chain-ids-and-data-quality) for the complete field contract.
 
+The returned `transactionId`, `sourceTxHash`, and `destTxHash` can be used as lookup keys with [Get a tracked transaction](/api-reference/endpoint/get-transaction) and [Get a tracked transaction status](/api-reference/endpoint/get-transaction-status). `destTxHash` is `null` until destination-side data is known.
+
 ```bash
 curl --get 'https://api.delora.build/v1/transactions' \
   --data-urlencode 'limit=50' \

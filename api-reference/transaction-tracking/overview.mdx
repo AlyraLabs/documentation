@@ -8,6 +8,16 @@ The Transaction Tracking API is a read-only view of Delora transactions associat
 
 It is not a transaction-execution API and it is not a complete blockchain archive.
 
+## Lookup keys
+
+Single-record endpoints accept a `lookupKey`. It can be:
+
+- the Delora `transactionId` returned in quote/transaction responses when available;
+- the source transaction hash;
+- the destination transaction hash, once known.
+
+Lookup is scoped to the integrator associated with `x-api-key`. A missing or out-of-scope lookup key returns `404`.
+
 ## Authentication and data access
 
 All tracking endpoints require a valid `x-api-key`.

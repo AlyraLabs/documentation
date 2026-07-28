@@ -954,11 +954,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/StandardErrorResponseDto'
-  /v1/transactions/{txHash}:
+  /v1/transactions/{lookupKey}:
     get:
-      operationId: getTransactionByHash
-      summary: Get one tracked transaction by source or destination hash
-      description: Finds a transaction by source or destination hash, case-insensitively, within the integrator associated with the API key.
+      operationId: getTransactionByLookupKey
+      summary: Get one tracked transaction by transaction ID or hash
+      description: Finds a transaction by Delora transactionId, source hash, or destination hash within the integrator associated with the API key.
       tags:
         - Transaction Tracking
       security:
@@ -970,10 +970,10 @@ paths:
           description: Customer API key. Required for Transaction Tracking endpoints.
           schema:
             type: string
-        - name: txHash
+        - name: lookupKey
           in: path
           required: true
-          description: Source or destination transaction hash.
+          description: Delora transactionId, source transaction hash, or destination transaction hash.
           schema:
             type: string
             example: '0x596a6d35655f3d2d334abcffb6b69999b82d5661f18692ea24174589894a7d30'
@@ -991,7 +991,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/StandardErrorResponseDto'
         '404':
-          description: No transaction is available for the hash in the current integrator scope.
+          description: No transaction is available for the lookup key in the current integrator scope.
           content:
             application/json:
               schema:
@@ -1008,7 +1008,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/StandardErrorResponseDto'
-  /v1/transactions/{txHash}/status:
+  /v1/transactions/{lookupKey}/status:
     get:
       operationId: getTransactionStatus
       summary: Get the lightweight current status of a tracked transaction
@@ -1024,10 +1024,10 @@ paths:
           description: Customer API key. Required for Transaction Tracking endpoints.
           schema:
             type: string
-        - name: txHash
+        - name: lookupKey
           in: path
           required: true
-          description: Source or destination transaction hash.
+          description: Delora transactionId, source transaction hash, or destination transaction hash.
           schema:
             type: string
             example: '0x596a6d35655f3d2d334abcffb6b69999b82d5661f18692ea24174589894a7d30'
@@ -1045,7 +1045,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/StandardErrorResponseDto'
         '404':
-          description: No transaction is available for the hash in the current integrator scope.
+          description: No transaction is available for the lookup key in the current integrator scope.
           content:
             application/json:
               schema:
