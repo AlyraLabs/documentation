@@ -132,6 +132,19 @@
             }
           },
           {
+            "name": "slippageMode",
+            "required": false,
+            "in": "query",
+            "description": "Automatic slippage policy. Set to `auto` to let Delora choose the route-specific slippage; when supplied, it takes precedence over `slippage`.",
+            "schema": {
+              "enum": [
+                "auto"
+              ],
+              "example": "auto",
+              "type": "string"
+            }
+          },
+          {
             "name": "includeBridges",
             "required": false,
             "in": "query",
@@ -2278,6 +2291,14 @@
             "example": 0.005,
             "description": "Optional slippage fraction. `0.005` means 0.5%."
           },
+          "slippageMode": {
+            "type": "string",
+            "enum": [
+              "auto"
+            ],
+            "example": "auto",
+            "description": "Automatic slippage policy. Set to `auto` to let Delora choose the route-specific slippage; when supplied, it takes precedence over `slippage`."
+          },
           "includeBridges": {
             "type": "string",
             "description": "Comma-separated bridge adapter keys from `/v1/tools` to include. Only bridge-capable or multi-capability adapters are valid.",
@@ -2357,6 +2378,12 @@
           },
           "slippage": {
             "type": "number"
+          },
+          "slippageMode": {
+            "type": "string",
+            "enum": [
+              "auto"
+            ]
           },
           "fromAddress": {
             "type": "string"

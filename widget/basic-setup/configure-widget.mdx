@@ -75,6 +75,10 @@ Use `rpcUrls` to provide preferred endpoints for a supported chain. Map each num
 | `showPoweredByDelora` | `boolean` | Show the linked Powered by Delora label. Defaults to `true`. |
 | `poweredByDeloraPosition` | `"left" \| "center" \| "right"` | Horizontal label position. Defaults to `"center"`. |
 
+### Automatic slippage
+
+The widget's **Auto** slippage option sends `slippageMode=auto` to Delora instead of a numeric `slippage` value. A configured numeric `slippage`, a numeric preset, or a custom value sends numeric `slippage` instead.
+
 If `assetBaseUrl` is not set, it falls back to `config.apiUrl` and then to `https://api.delora.build`.
 
 For browser-based widget integrations, prefer not to pass `apiKey` directly from the client. Instead:

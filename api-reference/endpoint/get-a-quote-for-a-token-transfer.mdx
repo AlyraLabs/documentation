@@ -5,3 +5,7 @@ openapi: "GET /v1/quotes"
 ---
 
 Request an exact-input quote for a same-chain swap or cross-chain transfer. The response includes estimated output amounts, executable `calldata`, fees, and optional non-blocking `warnings`.
+
+## Automatic slippage
+
+Set `slippageMode=auto` to use Delora's route-specific automatic slippage policy. When it is supplied, it takes precedence over a numeric `slippage` value.

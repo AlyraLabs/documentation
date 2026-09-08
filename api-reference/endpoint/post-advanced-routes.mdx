@@ -5,3 +5,5 @@ openapi: "POST /v1/advanced/routes"
 ---
 
 Use this endpoint when your integration needs route-level control instead of a single packaged transaction from `/v1/quotes`.
+
+Set `slippageMode` to `auto` to use Delora's route-specific automatic slippage policy. When it is supplied, it takes precedence over a numeric `slippage` value.
